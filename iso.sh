@@ -2,14 +2,14 @@
 set -e
 . ./build.sh
 
-mkdir -p isodir
-mkdir -p isodir/boot
-mkdir -p isodir/boot/grub
+mkdir -p _build/isodir
+mkdir -p _build/isodir/boot
+mkdir -p _build/isodir/boot/grub
 
-cp sysroot/boot/cozyos.kernel isodir/boot/cozyos.kernel
-cat > isodir/boot/grub/grub.cfg << EOF
+cp _build/target/sysroot/boot/cozyos.kernel _build/isodir/boot/cozyos.kernel
+cat > _build/isodir/boot/grub/grub.cfg << EOF
 menuentry "cozyos" {
 	multiboot /boot/cozyos.kernel
 }
 EOF
-grub-mkrescue -o cozyos.iso isodir
+grub-mkrescue -o cozyos.iso _build/isodir

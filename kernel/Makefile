@@ -7,6 +7,9 @@ CPPFLAGS?=
 LDFLAGS?=
 LIBS?=
 
+OBJDIR?=
+SRCDIR?=.
+
 DESTDIR?=
 PREFIX?=/usr/local
 EXEC_PREFIX?=$(PREFIX)
@@ -29,23 +32,23 @@ LIBS:=$(LIBS) $(KERNEL_ARCH_LIBS)
 
 KERNEL_OBJS=\
 $(KERNEL_ARCH_OBJS) \
-kernel/kernel.o \
+$(OBJDIR)/kernel/kernel.o \
 
 OBJS=\
-$(ARCHDIR)/crti.o \
-$(ARCHDIR)/crtbegin.o \
+$(OBJDIR)/$(ARCHDIR)/crti.o \
+$(OBJDIR)/$(ARCHDIR)/crtbegin.o \
 $(KERNEL_OBJS) \
-$(ARCHDIR)/crtend.o \
-$(ARCHDIR)/crtn.o \
+$(OBJDIR)/$(ARCHDIR)/crtend.o \
+$(OBJDIR)/$(ARCHDIR)/crtn.o \
 
 LINK_LIST=\
 $(LDFLAGS) \
-$(ARCHDIR)/crti.o \
-$(ARCHDIR)/crtbegin.o \
+$(OBJDIR)/$(ARCHDIR)/crti.o \
+$(OBJDIR)/$(ARCHDIR)/crtbegin.o \
 $(KERNEL_OBJS) \
 $(LIBS) \
-$(ARCHDIR)/crtend.o \
-$(ARCHDIR)/crtn.o \
+$(OBJDIR)/$(ARCHDIR)/crtend.o \
+$(OBJDIR)/$(ARCHDIR)/crtn.o \
 
 .PHONY: all clean install install-headers install-kernel
 .SUFFIXES: .o .c .S
@@ -53,16 +56,18 @@ $(ARCHDIR)/crtn.o \
 all: cozyos.kernel
 
 cozyos.kernel: $(OBJS) $(ARCHDIR)/linker.ld
-	$(CC) -T $(ARCHDIR)/linker.ld -o $@ $(CFLAGS) $(LINK_LIST)
-	grub-file --is-x86-multiboot cozyos.kernel
+	$(CC) -T $(ARCHDIR)/linker.ld -o $(OBJDIR)/$@ $(CFLAGS) $(LINK_LIST)
+	grub-file --is-x86-multiboot $(OBJDIR)/cozyos.kernel
 
-$(ARCHDIR)/crtbegin.o $(ARCHDIR)/crtend.o:
+$(OBJDIR)/$(ARCHDIR)/crtbegin.o $(OBJDIR)/$(ARCHDIR)/crtend.o:
 	OBJ=`$(CC) $(CFLAGS) $(LDFLAGS) -print-file-name=$(@F)` && cp "$$OBJ" $@
 
-.c.o:
+$(OBJDIR)/%.o: $(SRCDIR)/%.c
+	@mkdir -p $(dir $@)
 	$(CC) -MD -c $< -o $@ -std=gnu11 $(CFLAGS) $(CPPFLAGS)
 
-.S.o:
+$(OBJDIR)/%.o: $(SRCDIR)/%.s
+	@mkdir -p $(dir $@)
 	$(CC) -MD -c $< -o $@ $(CFLAGS) $(CPPFLAGS)
 
 clean:
@@ -78,6 +83,6 @@ install-headers:
 
 install-kernel: cozyos.kernel
 	mkdir -p $(DESTDIR)$(BOOTDIR)
-	cp cozyos.kernel $(DESTDIR)$(BOOTDIR)
+	cp $(OBJDIR)/cozyos.kernel $(DESTDIR)$(BOOTDIR)
 
 -include $(OBJS:.o=.d)

@@ -1,3 +1,4 @@
+#!/bin/bash
 SYSTEM_HEADER_PROJECTS="libc kernel"
 PROJECTS="libc kernel"
 
@@ -20,8 +21,14 @@ export INCLUDEDIR=$PREFIX/include
 export CFLAGS='-O2 -g'
 export CPPFLAGS=''
 
+# This file dir:
+export SCRIPT_DIR="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
+export BUILDDIR="$SCRIPT_DIR/_build"
+export OBJDIR="$BUILDDIR/intermediate"
+export TARGETDIR="$BUILDDIR/target"
+
 # Configure the cross-compiler to use the desired system root.
-export SYSROOT="$(pwd)/sysroot"
+export SYSROOT="$TARGETDIR/sysroot"
 export CC="$CC --sysroot=$SYSROOT"
 
 # Work around that the -elf gcc targets doesn't have a system include directory
