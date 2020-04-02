@@ -11,6 +11,7 @@ export PATH=${PATH}:${HOME}/opt/cross/bin
 export AR=${HOST}-ar
 export AS=${HOST}-as
 export CC=${HOST}-gcc
+export CXX=${HOST}-g++
 
 export PREFIX=/usr
 export EXEC_PREFIX=$PREFIX
@@ -18,8 +19,9 @@ export BOOTDIR=/boot
 export LIBDIR=$EXEC_PREFIX/lib
 export INCLUDEDIR=$PREFIX/include
 
-export CFLAGS='-O2 -g'
-export CPPFLAGS=''
+export CFLAGS='-std=gnu11'
+export CPPFLAGS='-O2 -g'
+export CXXFLAGS='-std=c++17'
 
 # This file dir:
 export SCRIPT_DIR="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
@@ -30,9 +32,11 @@ export TARGETDIR="$BUILDDIR/target"
 # Configure the cross-compiler to use the desired system root.
 export SYSROOT="$TARGETDIR/sysroot"
 export CC="$CC --sysroot=$SYSROOT"
+export CXX="$CXX --sysroot=$SYSROOT"
 
 # Work around that the -elf gcc targets doesn't have a system include directory
 # because it was configured with --without-headers rather than --with-sysroot.
 if echo "$HOST" | grep -Eq -- '-elf($|-)'; then
   export CC="$CC -isystem=$INCLUDEDIR"
+  export CXX="$CXX -isystem=$INCLUDEDIR"
 fi

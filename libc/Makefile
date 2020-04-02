@@ -16,10 +16,11 @@ EXEC_PREFIX?=$(PREFIX)
 INCLUDEDIR?=$(PREFIX)/include
 LIBDIR?=$(EXEC_PREFIX)/lib
 
-CFLAGS:=$(CFLAGS) -ffreestanding -Wall -Wextra
-CPPFLAGS:=$(CPPFLAGS) -D__is_libc -Iinclude
+CFLAGS:=$(CFLAGS)
+CPPFLAGS:=$(CPPFLAGS) -D__is_libc -Iinclude -ffreestanding -Wall -Wextra
 LIBK_CFLAGS:=$(CFLAGS)
 LIBK_CPPFLAGS:=$(CPPFLAGS) -D__is_libk
+LIBK_CXXFLAGS:=$(CXXFLAGS)
 
 ARCHDIR=arch/$(HOSTARCH)
 
@@ -32,9 +33,7 @@ LIBK_CPPFLAGS:=$(LIBK_CPPFLAGS) $(KERNEL_ARCH_CPPFLAGS)
 
 FREEOBJS=\
 $(ARCH_FREEOBJS) \
-$(OBJDIR)/stdio/printf.o \
-$(OBJDIR)/stdio/putchar.o \
-$(OBJDIR)/stdio/puts.o \
+$(OBJDIR)/stdio/stdio.o \
 $(OBJDIR)/stdlib/abort.o \
 $(OBJDIR)/string/memcmp.o \
 $(OBJDIR)/string/memcpy.o \
@@ -70,6 +69,10 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	@mkdir -p $(dir $@)
 	$(CC) -MD -c $< -o $@ -std=gnu11 $(CFLAGS) $(CPPFLAGS)
 
+$(OBJDIR)/%.o: $(SRCDIR)/%.cpp
+	@mkdir -p $(dir $@)
+	$(CXX) -MD -c $< -o $@ $(CPPFLAGS) $(CXXFLAGS)
+
 $(OBJDIR)/%.o: $(SRCDIR)/%.S
 	@mkdir -p $(dir $@)
 	$(CC) -MD -c $< -o $@ $(CFLAGS) $(CPPFLAGS)
@@ -77,6 +80,11 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.S
 $(OBJDIR)/%.libk.o: $(SRCDIR)/%.c
 	@mkdir -p $(dir $@)
 	$(CC) -MD -c $< -o $@ -std=gnu11 $(LIBK_CFLAGS) $(LIBK_CPPFLAGS)
+
+$(OBJDIR)/%.libk.o: $(SRCDIR)/%.cpp
+	@mkdir -p $(dir $@)
+	$(CXX) -MD -c $< -o $@ $(LIBK_CPPFLAGS) $(LIBK_CXXFLAGS)
+
 
 $(OBJDIR)/%.libk.o: $(SRCDIR)/%.S
 	$(CC) -MD -c $< -o $@ $(LIBK_CFLAGS) $(LIBK_CPPFLAGS)
