@@ -1,17 +1,10 @@
-#ifndef _STDLIB_H
-#define _STDLIB_H 1
+#pragma once
 
 #include <sys/cdefs.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+__BEGIN_EXTERN_C
 
 __attribute__((__noreturn__))
 void abort(void);
 
-#ifdef __cplusplus
-}
-#endif
-
-#endif
+__END_EXTERN_C

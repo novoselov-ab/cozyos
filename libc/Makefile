@@ -34,12 +34,8 @@ LIBK_CPPFLAGS:=$(LIBK_CPPFLAGS) $(KERNEL_ARCH_CPPFLAGS)
 FREEOBJS=\
 $(ARCH_FREEOBJS) \
 $(OBJDIR)/stdio/stdio.o \
-$(OBJDIR)/stdlib/abort.o \
-$(OBJDIR)/string/memcmp.o \
-$(OBJDIR)/string/memcpy.o \
-$(OBJDIR)/string/memmove.o \
-$(OBJDIR)/string/memset.o \
-$(OBJDIR)/string/strlen.o \
+$(OBJDIR)/stdlib/stdlib.o \
+$(OBJDIR)/string/string.o \
 
 HOSTEDOBJS=\
 $(ARCH_HOSTEDOBJS) \

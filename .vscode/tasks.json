@@ -16,7 +16,23 @@
                 "command": "qemu-system-i386 -s -S -cdrom cozyos.iso"
             },
             "problemMatcher": []
-        }
+        },
+        {
+            "label": "Build",
+            "type": "shell",
+            "linux": {
+                "command": "./build.sh"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Build & Run",
+            "type": "shell",
+            "linux": {
+                "command": "./build-and-run.sh"
+            },
+            "problemMatcher": []
+        },
 
     ]
 }

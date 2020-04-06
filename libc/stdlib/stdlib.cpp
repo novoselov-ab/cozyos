@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+extern "C" 
+{
+
 __attribute__((__noreturn__))
 void abort(void) {
 #if defined(__is_libk)
@@ -12,4 +15,6 @@ void abort(void) {
 #endif
 	while (1) { }
 	__builtin_unreachable();
+}
+
 }
