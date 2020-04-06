@@ -1,0 +1,22 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Launch QEMU",
+            "type": "shell",
+            "linux": {
+                "command": "qemu-system-i386 -cdrom cozyos.iso"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Launch QEMU (Wait for GDB)",
+            "type": "shell",
+            "linux": {
+                "command": "qemu-system-i386 -s -S -cdrom cozyos.iso"
+            },
+            "problemMatcher": []
+        }
+
+    ]
+}

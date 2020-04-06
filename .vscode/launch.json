@@ -1,0 +1,46 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "(gdb) Launch",
+            "type": "gdb",
+            "request": "attach",
+
+            "executable": "${workspaceFolder}/_build/target/sysroot/boot/cozyos.kernel",
+            "target": "localhost:1234",
+            "remote": true,
+
+            "cwd": "${workspaceRoot}", 
+            "gdbpath": "/home/anton/opt/cross/bin/i686-elf-gdb",
+
+            // "program": "${workspaceRoot}/bin/myos.bin",
+            // "args": [],
+            // "targetArchitecture" : "x86",
+            // "miDebuggerPath" : "/home/anton/opt/cross/bin/i686-elf-gdb",
+            // "miDebuggerServerAddress": "127.0.0.1:1234",
+            // "stopAtEntry": false,
+            // "environment": [],
+            // "externalConsole": false,
+            // "MIMode": "gdb",
+            // "setupCommands": [
+            //     {
+            //         "description": "Enable pretty-printing for gdb",
+            //         "text": "-enable-pretty-printing",
+            //         "ignoreFailures": true
+            //     },
+            //     {
+            //         "text": "file ${workspaceRoot}/_build/target/sysroot/boot/cozyos.kernel",
+            //         "description": "Load binary."
+            //     },
+            //     {
+            //         "text": "break isr_handler",
+            //         "description": "Break on exception handler."
+            //     }                
+            // ],
+            // "preLaunchTask": "Launch QEMU"
+        }
+    ]
+}

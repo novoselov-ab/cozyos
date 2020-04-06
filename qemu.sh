@@ -2,4 +2,4 @@
 set -e
 . ./iso.sh
 
-qemu-system-$(./target-triplet-to-arch.sh $HOST) -cdrom cozyos.iso
+qemu-system-$(./target-triplet-to-arch.sh $HOST) $@ -cdrom cozyos.iso
