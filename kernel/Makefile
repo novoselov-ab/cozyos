@@ -16,8 +16,8 @@ EXEC_PREFIX?=$(PREFIX)
 BOOTDIR?=$(EXEC_PREFIX)/boot
 INCLUDEDIR?=$(PREFIX)/include
 
-CFLAGS:=$(CFLAGS) -ffreestanding -Wall -Wextra
-CPPFLAGS:=$(CPPFLAGS) -D__is_kernel -Iinclude
+CFLAGS:=$(CFLAGS)
+CPPFLAGS:=$(CPPFLAGS) -D__is_kernel -Iinclude -ffreestanding -Wall -Wextra
 LDFLAGS:=$(LDFLAGS)
 LIBS:=$(LIBS) -nostdlib -lk -lgcc
 
@@ -64,7 +64,11 @@ $(OBJDIR)/$(ARCHDIR)/crtbegin.o $(OBJDIR)/$(ARCHDIR)/crtend.o:
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	@mkdir -p $(dir $@)
-	$(CC) -MD -c $< -o $@ -std=gnu11 $(CFLAGS) $(CPPFLAGS)
+	$(CC) -MD -c $< -o $@ $(CFLAGS) $(CPPFLAGS)
+
+$(OBJDIR)/%.o: $(SRCDIR)/%.cpp
+	@mkdir -p $(dir $@)
+	$(CXX) -MD -c $< -o $@ $(CPPFLAGS) $(CXXFLAGS)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.s
 	@mkdir -p $(dir $@)

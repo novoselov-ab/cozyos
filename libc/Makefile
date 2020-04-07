@@ -63,7 +63,7 @@ $(OBJDIR)/libk.a: $(LIBK_OBJS)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	@mkdir -p $(dir $@)
-	$(CC) -MD -c $< -o $@ -std=gnu11 $(CFLAGS) $(CPPFLAGS)
+	$(CC) -MD -c $< -o $@ $(CFLAGS) $(CPPFLAGS)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 	@mkdir -p $(dir $@)
@@ -75,7 +75,7 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.S
 
 $(OBJDIR)/%.libk.o: $(SRCDIR)/%.c
 	@mkdir -p $(dir $@)
-	$(CC) -MD -c $< -o $@ -std=gnu11 $(LIBK_CFLAGS) $(LIBK_CPPFLAGS)
+	$(CC) -MD -c $< -o $@ $(LIBK_CFLAGS) $(LIBK_CPPFLAGS)
 
 $(OBJDIR)/%.libk.o: $(SRCDIR)/%.cpp
 	@mkdir -p $(dir $@)

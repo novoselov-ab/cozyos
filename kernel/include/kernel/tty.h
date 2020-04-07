@@ -1,20 +1,15 @@
-#ifndef _KERNEL_TTY_H
-#define _KERNEL_TTY_H
+#pragma once
 
 #include <stddef.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#include <sys/cdefs.h>
 
+__BEGIN_EXTERN_C
 
-void terminal_initialize(void);
-void terminal_putchar(char c);
-void terminal_write(const char* data, size_t size);
-void terminal_writestring(const char* data);
+void tty_initialize(void);
+void tty_clear_screen(void);
+void tty_putchar(char c);
+void tty_print_at(const char* message, int col, int row);
+void tty_print(const char* message);
 
-#ifdef __cplusplus
-}
-#endif
-
-#endif
+__END_EXTERN_C
