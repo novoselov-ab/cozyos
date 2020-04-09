@@ -63,27 +63,27 @@ $(OBJDIR)/libk.a: $(LIBK_OBJS)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	@mkdir -p $(dir $@)
-	$(CC) -MD -c $< -o $@ $(CFLAGS) $(CPPFLAGS)
+	$(CC) -MD -c $(abspath $<) -o $@ $(CFLAGS) $(CPPFLAGS)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 	@mkdir -p $(dir $@)
-	$(CXX) -MD -c $< -o $@ $(CPPFLAGS) $(CXXFLAGS)
+	$(CXX) -MD -c $(abspath $<) -o $@ $(CPPFLAGS) $(CXXFLAGS)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.S
 	@mkdir -p $(dir $@)
-	$(CC) -MD -c $< -o $@ $(CFLAGS) $(CPPFLAGS)
+	$(CC) -MD -c $(abspath $<) -o $@ $(CFLAGS) $(CPPFLAGS)
 
 $(OBJDIR)/%.libk.o: $(SRCDIR)/%.c
 	@mkdir -p $(dir $@)
-	$(CC) -MD -c $< -o $@ $(LIBK_CFLAGS) $(LIBK_CPPFLAGS)
+	$(CC) -MD -c $(abspath $<) -o $@ $(LIBK_CFLAGS) $(LIBK_CPPFLAGS)
 
 $(OBJDIR)/%.libk.o: $(SRCDIR)/%.cpp
 	@mkdir -p $(dir $@)
-	$(CXX) -MD -c $< -o $@ $(LIBK_CPPFLAGS) $(LIBK_CXXFLAGS)
+	$(CXX) -MD -c $(abspath $<) -o $@ $(LIBK_CPPFLAGS) $(LIBK_CXXFLAGS)
 
 
 $(OBJDIR)/%.libk.o: $(SRCDIR)/%.S
-	$(CC) -MD -c $< -o $@ $(LIBK_CFLAGS) $(LIBK_CPPFLAGS)
+	$(CC) -MD -c $(abspath $<) -o $@ $(LIBK_CFLAGS) $(LIBK_CPPFLAGS)
 
 clean:
 	rm -f $(BINARIES) *.a

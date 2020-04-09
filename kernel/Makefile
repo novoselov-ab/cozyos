@@ -64,15 +64,15 @@ $(OBJDIR)/$(ARCHDIR)/crtbegin.o $(OBJDIR)/$(ARCHDIR)/crtend.o:
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	@mkdir -p $(dir $@)
-	$(CC) -MD -c $< -o $@ $(CFLAGS) $(CPPFLAGS)
+	$(CC) -MD -c $(abspath $<) -o $@ $(CFLAGS) $(CPPFLAGS)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 	@mkdir -p $(dir $@)
-	$(CXX) -MD -c $< -o $@ $(CPPFLAGS) $(CXXFLAGS)
+	$(CXX) -MD -c $(abspath $<) -o $@ $(CPPFLAGS) $(CXXFLAGS)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.s
 	@mkdir -p $(dir $@)
-	$(CC) -MD -c $< -o $@ $(CFLAGS) $(CPPFLAGS)
+	$(CC) -MD -c $(abspath $<) -o $@ $(CFLAGS) $(CPPFLAGS)
 
 clean:
 	rm -f cozyos.kernel
