@@ -2,23 +2,36 @@
 #include <stdarg.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #if defined(__is_libk)
 #    include <kernel/tty.h>
 #endif
 
+static bool print(const char* data, size_t length)
+{
+    const unsigned char* bytes = (const unsigned char*)data;
+    for (size_t i = 0; i < length; i++)
+        if (putchar(bytes[i]) == EOF)
+            return false;
+    return true;
+}
+
+static bool print(int num)
+{
+    char buf[64];
+    if (itoa(num, buf, 64 - 1, 10) != 0)
+        return false;
+
+    size_t len = strlen(buf);
+    print(buf, len);
+    return true;
+}
+
+
 extern "C"
 {
-
-    static bool print(const char* data, size_t length)
-    {
-        const unsigned char* bytes = (const unsigned char*)data;
-        for (size_t i = 0; i < length; i++)
-            if (putchar(bytes[i]) == EOF)
-                return false;
-        return true;
-    }
 
     int printf(const char* __restrict__ format, ...)
     {
@@ -62,6 +75,19 @@ extern "C"
                     return -1;
                 }
                 if (!print(&c, sizeof(c)))
+                    return -1;
+                written++;
+            }
+            else if (*format == 'd')
+            {
+                format++;
+                int num = va_arg(parameters, int);
+                if (!maxrem)
+                {
+                    // TODO: Set errno to EOVERFLOW.
+                    return -1;
+                }
+                if (!print(num))
                     return -1;
                 written++;
             }
