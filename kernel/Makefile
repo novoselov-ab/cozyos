@@ -17,7 +17,7 @@ BOOTDIR?=$(EXEC_PREFIX)/boot
 INCLUDEDIR?=$(PREFIX)/include
 
 CFLAGS:=$(CFLAGS)
-CPPFLAGS:=$(CPPFLAGS) -D__is_kernel -Iinclude -ffreestanding -Wall -Wextra
+CPPFLAGS:=$(CPPFLAGS) -D__is_kernel -Iinclude -Iarch/$(HOSTARCH) -ffreestanding -Wall -Wextra
 LDFLAGS:=$(LDFLAGS)
 LIBS:=$(LIBS) -nostdlib -lk -lgcc
 
@@ -70,9 +70,13 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 	@mkdir -p $(dir $@)
 	$(CXX) -MD -c $(abspath $<) -o $@ $(CPPFLAGS) $(CXXFLAGS)
 
-$(OBJDIR)/%.o: $(SRCDIR)/%.s
+$(OBJDIR)/%.o: $(SRCDIR)/%.S
 	@mkdir -p $(dir $@)
 	$(CC) -MD -c $(abspath $<) -o $@ $(CFLAGS) $(CPPFLAGS)
+
+$(OBJDIR)/%.o: $(SRCDIR)/%.asm
+	@mkdir -p $(dir $@)
+	nasm $(abspath $<) -f elf -o $@
 
 clean:
 	rm -f cozyos.kernel
