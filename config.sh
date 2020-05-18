@@ -23,8 +23,8 @@ export LIBDIR=$EXEC_PREFIX/lib
 export INCLUDEDIR=$PREFIX/include
 
 export CFLAGS='-std=gnu11'
-export CPPFLAGS='-O2 -g'
-export CXXFLAGS='-std=c++17'
+export CPPFLAGS='-O2 -g -Wall -Wextra'
+export CXXFLAGS='-std=c++17 -fno-exceptions -fno-rtti'
 
 # This file dir:
 export SCRIPT_DIR="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"

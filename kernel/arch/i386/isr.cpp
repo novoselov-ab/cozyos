@@ -89,9 +89,8 @@ extern "C"
 
     void isr_handler(registers_t r)
     {
-         printf("received interrupt: ");
-    //     printf("%d", r.int_no);
-    //     printf("\n");
+         printf("received interrupt: %d . Error code: %d", r.int_no, r.err_code);
+         printf("\n");
          printf(exception_messages[r.int_no]);
          printf("\n");
     }
